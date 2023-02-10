@@ -1,4 +1,4 @@
-package uk.co.stevebosman.bucketlambda;
+package uk.co.stevebosman.bucketlambda.helpers;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import org.testcontainers.containers.localstack.LocalStackContainer;
 
 import java.io.IOException;
 
-import static uk.co.stevebosman.bucketlambda.LogHelper.logResult;
+import static uk.co.stevebosman.bucketlambda.helpers.LogHelper.logResult;
 
 @Slf4j
 @NoArgsConstructor

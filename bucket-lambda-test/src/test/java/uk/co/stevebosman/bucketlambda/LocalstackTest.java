@@ -26,10 +26,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.testcontainers.containers.localstack.LocalStackContainer.Service.CLOUDWATCHLOGS;
 import static org.testcontainers.containers.localstack.LocalStackContainer.Service.LAMBDA;
 import static org.testcontainers.containers.localstack.LocalStackContainer.Service.S3;
-import static uk.co.stevebosman.bucketlambda.LambdaCommands.createFunction;
-import static uk.co.stevebosman.bucketlambda.LambdaCommands.invoke;
-import static uk.co.stevebosman.bucketlambda.S3ApiCommands.createBucket;
-import static uk.co.stevebosman.bucketlambda.S3ApiCommands.putObject;
+import static uk.co.stevebosman.bucketlambda.helpers.LambdaCommands.createFunction;
+import static uk.co.stevebosman.bucketlambda.helpers.LambdaCommands.invoke;
+import static uk.co.stevebosman.bucketlambda.helpers.S3ApiCommands.createBucket;
+import static uk.co.stevebosman.bucketlambda.helpers.S3ApiCommands.putObject;
 
 @Slf4j
 @Testcontainers
@@ -40,7 +40,7 @@ public class LocalstackTest {
   private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
   private static final String JAR_PATH_CONTAINER = "/tmp/localstack/bucket-lambda.jar";
   private static final String JAR_PATH_LOCAL = "../bucket-lambda/target/bucket-lambda-1.0-SNAPSHOT.jar";
-  private static final String REGION = "eu-west-2";
+  private static final String REGION = "us-east-1";
   private static final String RESULTS_PATH_CONTAINER = "/home/user/localstack";
   private static final String RESULTS_PATH_LOCAL = "results";
   private static final String OBJECTS_PATH_CONTAINER = "/home/user/objects";

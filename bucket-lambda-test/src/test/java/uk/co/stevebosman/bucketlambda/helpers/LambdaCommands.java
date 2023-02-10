@@ -1,4 +1,4 @@
-package uk.co.stevebosman.bucketlambda;
+package uk.co.stevebosman.bucketlambda.helpers;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static uk.co.stevebosman.bucketlambda.LogHelper.logResult;
+import static uk.co.stevebosman.bucketlambda.helpers.LogHelper.logResult;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -28,6 +28,7 @@ public final class LambdaCommands {
             "--runtime", "java11",
             "--region", region,
             "--handler", handler,
+            "--timeout", "60",
             "--role", "arn:aws:iam::123456:role/test",
             "--zip-file", jarPath,
             "--environment", "Variables={"

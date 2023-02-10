@@ -1,4 +1,4 @@
-package uk.co.stevebosman.bucketlambda;
+package uk.co.stevebosman.bucketlambda.helpers;
 
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;

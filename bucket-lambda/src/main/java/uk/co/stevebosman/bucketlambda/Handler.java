@@ -4,17 +4,12 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import uk.co.stevebosman.bucketlambda.s3.S3ClientFactory;
+import uk.co.stevebosman.bucketlambda.s3.S3Helper;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,8 +37,7 @@ public class Handler implements RequestHandler<Map<String, String>, HandlerResul
         result.message("reading");
         final String bucket = input.get("bucket");
         final String key = input.get("object-key");
-        final String json;
-        json = readJsonObject(bucket, key);
+        final String json = S3Helper.readTextObject(s3Client, bucket, key);
         @SuppressWarnings("unchecked") final Map<String, Object> jsonMap = OBJECT_MAPPER.readValue(json, HashMap.class);
         result.message(jsonMap.get(input.get("property")).toString());
       } else if ("hello".equals(command)) {
@@ -57,29 +51,6 @@ public class Handler implements RequestHandler<Map<String, String>, HandlerResul
       result.message(e.getMessage());
     }
     return result.build();
-  }
-
-  /**
-   * Retrieve JSON object from bucket.
-   *
-   * @param bucket bucket name.
-   * @param key object key.
-   * @return JSON Text
-   * @throws IOException failed to process object.
-   */
-  private String readJsonObject(final String bucket, final String key) throws IOException {
-    final GetObjectRequest request = GetObjectRequest.builder()
-                                                     .bucket(bucket)
-                                                     .key(key)
-                                                     .build();
-    final ResponseInputStream<GetObjectResponse> responseInputStream = s3Client.getObject(request);
-    final BufferedReader reader = new BufferedReader(new InputStreamReader(responseInputStream));
-    final List<String> lines = new ArrayList<>();
-    String line;
-    while ((line = reader.readLine()) != null) {
-      lines.add(line);
-    }
-    return String.join("\n", lines);
   }
 
 }

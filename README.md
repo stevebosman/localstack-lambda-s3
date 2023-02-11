@@ -6,9 +6,12 @@ This project consists of two projects.
 
 To run the demo:
 
-* build `bucket-lambda`: `cd bucket-lambda; mvn clean package`;
 * Ensure Docker is running;
+* build `bucket-lambda`: `cd bucket-lambda; mvn clean package`;
+  * This will run unit tests using testcontainers localstack confirming the S3 interactions. 
 * run tests in `bucket-lambda-test`: `cd ../bucket-lambda-test; mvn clean verify`.
+  * This will run a localstack based test which demonstrates testing the complete AWS Lambda 
+    using testcontainers and localstack.
 
 ## Setting up the S3 Client
 In order for the lambda to communicate correctly with the localstack S3 implementation, 

@@ -1,4 +1,4 @@
-package uk.co.stevebosman.bucketlambda;
+package uk.co.stevebosman.bucketlambda.s3;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

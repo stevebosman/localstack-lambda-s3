@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.S3Exception;
 import uk.co.stevebosman.bucketlambda.s3.S3ClientFactory;
 import uk.co.stevebosman.bucketlambda.s3.S3Helper;
 
@@ -23,7 +24,11 @@ public class Handler implements RequestHandler<Map<String, String>, HandlerResul
 
   @SuppressWarnings("unused")
   public Handler() {
-    this.s3Client = S3ClientFactory.s3Client();
+    this(S3ClientFactory.s3Client());
+  }
+
+  public Handler(final S3Client s3Client) {
+    this.s3Client = s3Client;
   }
 
   @Override
@@ -46,7 +51,7 @@ public class Handler implements RequestHandler<Map<String, String>, HandlerResul
         result.status("error");
         result.message("Unrecognised command: " + command);
       }
-    } catch (final IOException e) {
+    } catch (final IOException | S3Exception e) {
       result.status("error");
       result.message(e.getMessage());
     }

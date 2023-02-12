@@ -6,12 +6,10 @@ import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import uk.co.stevebosman.bucketlambda.testhelpers.S3TestHelper;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,7 +28,7 @@ class S3HelperTest {
 
   @Test
   void readTextObjectCanReadSingleLineFile() throws IOException {
-    final S3Client s3 = getS3Client();
+    final S3Client s3 = S3TestHelper.getS3Client(localStack);
     final String bucketName = "bucket";
     final String objectKey = "key";
     s3.createBucket(CreateBucketRequest.builder().bucket(bucketName).build());
@@ -45,13 +43,4 @@ class S3HelperTest {
     assertEquals(Files.readString(testFile), result);
   }
 
-  private static S3Client getS3Client() {
-    return S3Client.builder()
-                   .endpointOverride(localStack.getEndpointOverride(LocalStackContainer.Service.S3))
-                   .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(
-                                        localStack.getAccessKey(), localStack.getSecretKey()
-                                )))
-                   .region(Region.of(localStack.getRegion()))
-                   .build();
-  }
 }

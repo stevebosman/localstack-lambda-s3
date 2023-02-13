@@ -55,6 +55,8 @@ Create a static `LocalStackContainer`.
               .withServices(LocalStackContainer.Service.S3);
 
 Since starting a container takes a while, consider centralising S3 tests in the one test class.
+Testcontainers has an [experimental mode](https://www.testcontainers.org/features/reuse/) supporting container reuse, 
+but it doesn't close the container afterwards. 
 
 S3Client instance passed to the method under test created using, 
 this can also be used in the test method to create buckets, and objects etc.
